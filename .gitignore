@@ -1,3 +1,6 @@
 dataset/hh-rlhf/
 dataset/stanfordshp/
 entropy/hh-rlhf/ppo/scored_rewards_dataset_with_entropy/hh-rlhf/
+dataset/hh-rlhf/
+dataset/stanfordshp/
+entropy/hh-rlhf/ppo/scored_rewards_dataset_with_entropy/hh-rlhf/
