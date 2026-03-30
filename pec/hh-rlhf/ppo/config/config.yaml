@@ -1,0 +1,71 @@
+# PPO + Dynamic Priority Experience Curriculum (PEC) in "new repo" structure
+# ============================================================================
+# Matches the full code I provided (expects curriculum + reward_model blocks)
+
+# Model Configuration
+model_name: "Qwen/Qwen2-0.5B"
+
+# Reward Model (terminal external reward)
+reward_model:
+  repo: "Ray2333/gpt2-large-helpful-reward_model"
+
+# Dataset Configuration
+dataset:
+  name: "Anthropic/hh-rlhf"
+  split: "train"
+  max_samples: null
+  max_length: 1024
+  max_prompt_length: 256
+  max_response_length: 128
+  split_seed: 42
+  dataset_dir: dataset/hh-rlhf
+
+# PPO Configuration
+ppo:
+  init_kl_coef: 0.5
+  target_kl: 6
+  mini_batch_size: 4
+
+# Training Configuration
+training:
+  learning_rate: 1e-6
+  batch_size: 8
+  num_epochs: 2
+  logging_steps: 10
+
+# Curriculum (PEC) Configuration
+curriculum:
+  # Number of dynamic stages; at each stage we recompute PEC scores on remaining data
+  start_buckets: 5
+  # Scoring minibatch size during PEC scoring (rollout + value/kl + RM)
+  pec_batch_size: 32
+  # Use "ADV" for mean |A_t| or "TD" for mean |delta_t|
+  pec_score_type: "TD"
+  # Discount and GAE lambda for PEC scoring
+  gamma: 1.0
+  gae_lambda: 0.95
+  # (optional) number of evals per stage; eval_every = total_batches // num_evals_per_stage
+  num_evals_per_stage: 10
+
+# Checkpoints Configuration
+checkpoints:
+  dir: "models/pec/hh-rlhf/ppo/checkpoints/ppo_increasing"
+  save_steps: 1000
+  save_total_limit: 1
+
+# Logging Configuration
+logging:
+  dir: "logs/pec/hh-rlhf/ppo/ppo_increasing"
+  sample_batch_size: 16
+  sample_save_every: 20
+
+# MLflow Configuration
+mlflow:
+  enabled: false
+
+# Wandb Configuration
+wandb:
+  enabled: false
+
+# (optional) top-level seed used by the code; if omitted it falls back to dataset.split_seed
+seed: 42

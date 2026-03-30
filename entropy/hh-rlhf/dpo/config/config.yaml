@@ -1,0 +1,45 @@
+# DPO Entropy Curriculum Training Configuration (per-bucket validation + best ckpt)
+# =========================================================================
+
+model_name: "Qwen/Qwen2-0.5B"
+
+dataset:
+  name: "Anthropic/hh-rlhf"
+  split: "train"
+  max_samples: null
+  max_prompt_length: 256
+  max_response_length: 128
+  val_frac: 0.10
+  split_seed: 42
+  dataset_dir: dataset/hh-rlhf
+
+dpo:
+  beta: 0.5
+
+curriculum:
+  start_buckets: 5
+  entropy_batch_size: 64
+
+training:
+  learning_rate: 1e-6
+  batch_size: 24
+  num_epochs: 1
+  eval_batch_size: 32              # optional; if omitted, code uses batch_size
+  logging_steps: 10
+
+checkpoints:
+  dir: "models/entropy/hh-rlhf/dpo/checkpoints/dpo_increasing"
+  save_steps: 1000
+  save_total_limit: 1
+
+logging:
+  dir: "logs/entropy/hh-rlhf/dpo/dpo_increasing"
+  # if you still keep sample logging callback in your script
+  sample_batch_size: 16
+  sample_save_every: 20
+
+mlflow:
+  enabled: false
+
+wandb:
+  enabled: false

@@ -1,0 +1,38 @@
+name: rlhf
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+    # mlflow imports pkg_resources; setuptools 82+ removed pkg_resources — pin below 82
+    - setuptools>=65.0.0,<82.0.0
+    # Core — pin PyTorch for CUDA 11.8 (matches p4de cluster)
+    - torch==2.1.2
+    - torchvision==0.16.2
+    # HuggingFace stack — versions must be consistent with each other
+    # Pin hub/tokenizers so a stray upgrade cannot leave transformers 4.x with hub 0.23 while TF 5.x is installed.
+    - huggingface-hub>=0.20.3,<1.0
+    - tokenizers>=0.19.0,<0.20.0
+    - transformers==4.40.2
+    - datasets==2.18.0
+    - accelerate==0.29.3
+    # DPO/PPO in this repo uses the legacy (0.8.x) trainer APIs.
+    # IMPORTANT: keep TRL 0.8.x, because later TRL versions switch DPOTrainer
+    # to `args=DPOConfig` and/or remove the legacy PPOTrainer stack.
+    - trl==0.8.0
+    # trl.trainer.utils imports rich; base trl wheel may not install it
+    - rich>=13.0.0
+    - peft==0.10.0
+    # Experiment tracking
+    - mlflow==2.12.1
+    - wandb==0.16.6
+    # Required by T5Tokenizer for SteamSHP reward model (stanfordshp PPO)
+    - sentencepiece==0.2.0
+    # Utilities
+    - numpy==1.26.4
+    - tqdm==4.66.2
+    - pyyaml==6.0.1

@@ -1,0 +1,36 @@
+{
+  "citation": "",
+  "description": "",
+  "features": {
+    "history": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "chosen": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "rejected": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "reward_chosen": {
+      "dtype": "float64",
+      "_type": "Value"
+    },
+    "reward_rejected": {
+      "dtype": "float64",
+      "_type": "Value"
+    },
+    "p": {
+      "dtype": "float64",
+      "_type": "Value"
+    },
+    "entropy": {
+      "dtype": "float64",
+      "_type": "Value"
+    }
+  },
+  "homepage": "",
+  "license": ""
+}

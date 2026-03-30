@@ -1,0 +1,52 @@
+
+# increasing PPO Training Configuration with EFS Logging
+# ===================================================
+
+# Model Configuration
+model_name: "Qwen/Qwen2-0.5B"
+
+# Dataset Configuration
+dataset:
+  name: "stanfordnlp/SHP"
+  split: "train"
+  max_samples: null  # Set to a number to limit dataset size for testing
+  max_length: 1024
+  max_prompt_length: 256
+  max_response_length: 128
+  split_seed: 42
+  dataset_dir: dataset/stanfordshp
+
+# PPO Configuration
+ppo:
+  init_kl_coef: 0.5
+  target_kl: 6
+  mini_batch_size: 8
+
+# Training Configuration
+training:
+  learning_rate: 1e-6 # [1e-6, 1e-5, 1e-4]
+  batch_size: 64 # [32,48,64,]
+  num_epochs: 2 # [1,2,4]
+  logging_steps: 10
+  runs: 5
+
+
+# Checkpoints Configuration
+checkpoints:
+  dir: "models/length/stanfordshp/ppo/checkpoints/ppo_increasing"
+  save_steps: 1000
+  save_total_limit: 1
+
+# Logging Configuration
+logging:
+  dir: "logs/length/stanfordshp/ppo/ppo_increasing"
+  sample_batch_size: 16
+  sample_save_every: 20
+
+# MLflow Configuration
+mlflow:
+  enabled: false
+
+# Wandb Configuration
+wandb:
+  enabled: false

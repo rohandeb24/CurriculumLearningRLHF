@@ -1,0 +1,45 @@
+# Model Configuration
+model_name: "Qwen/Qwen2-0.5B"
+
+# Dataset Configuration
+dataset:
+  name: "stanfordnlp/SHP"
+  split: "train"
+  max_samples: null  # Set to a number to limit dataset size for testing
+  max_length: 1024
+  max_prompt_length: 256
+  max_response_length: 128
+  split_seed: 42
+  dataset_dir: dataset/stanfordshp
+
+# DPO Configuration
+dpo:
+  beta: 0.5
+
+# Training Configuration
+training:
+  learning_rate: 1e-6 #[6,5,4]
+  batch_size: 24 # [8,16,24]
+  num_epochs: 4 #[1,2,4]
+  logging_steps: 10
+
+# Checkpoints Configuration
+checkpoints:
+  dir: "models/clustering/stanfordshp/dpo/checkpoints/dpo_increasing"
+  save_steps: 1000
+  save_total_limit: 1
+
+# Logging Configuration
+logging:
+  dir: "logs/clustering/stanfordshp/dpo/dpo_increasing"
+  sample_batch_size: 16
+  sample_save_every: 20
+
+# MLflow Configuration
+mlflow:
+  enabled: false
+
+# Wandb Configuration
+wandb:
+  enabled: false
+
